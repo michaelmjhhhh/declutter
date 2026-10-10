@@ -8,22 +8,22 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 	"github.com/charmbracelet/x/term"
-	"github.com/michaelmjhhhh/remove-shit/internal/clean"
-	"github.com/michaelmjhhhh/remove-shit/internal/fileio"
-	"github.com/michaelmjhhhh/remove-shit/internal/tui"
+	"github.com/michaelmjhhhh/declutter/internal/clean"
+	"github.com/michaelmjhhhh/declutter/internal/fileio"
+	"github.com/michaelmjhhhh/declutter/internal/tui"
 )
 
 var version = "dev"
 
 func main() {
 	if err := run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr); err != nil {
-		fmt.Fprintln(os.Stderr, "remove-shit:", err)
+		fmt.Fprintln(os.Stderr, "declutter:", err)
 		os.Exit(1)
 	}
 }
 
 func run(args []string, stdin *os.File, stdout, stderr io.Writer) error {
-	fs := flag.NewFlagSet("remove-shit", flag.ContinueOnError)
+	fs := flag.NewFlagSet("declutter", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	showVersion := fs.Bool("version", false, "print version and exit")
 	format := fs.String("format", "auto", "input format: auto, text, markdown, html, rtf, docx")
@@ -32,7 +32,7 @@ func run(args []string, stdin *os.File, stdout, stderr io.Writer) error {
 	interactive := fs.Bool("interactive", false, "preview the input in the interactive app")
 	fs.BoolVar(interactive, "i", false, "alias for --interactive")
 	fs.Usage = func() {
-		fmt.Fprintln(stderr, "remove-shit — turn formatted content into readable plain text\n\nUsage:\n  remove-shit                         Interactive paste / file input\n  remove-shit [flags] FILE            Clean a file to stdout\n  cat FILE | remove-shit [flags]      Clean stdin to stdout\n  remove-shit --interactive FILE      Preview before saving\n\nFlags must precede FILE. Use - as FILE to read stdin.")
+		fmt.Fprintln(stderr, "declutter — turn formatted content into readable plain text\n\nUsage:\n  declutter                         Interactive paste / file input\n  declutter [flags] FILE            Clean a file to stdout\n  cat FILE | declutter [flags]      Clean stdin to stdout\n  declutter --interactive FILE      Preview before saving\n\nFlags must precede FILE. Use - as FILE to read stdin.")
 		fs.PrintDefaults()
 	}
 	if err := fs.Parse(args); err != nil {
@@ -42,7 +42,7 @@ func run(args []string, stdin *os.File, stdout, stderr io.Writer) error {
 		return err
 	}
 	if *showVersion {
-		_, err := fmt.Fprintln(stdout, "remove-shit", version)
+		_, err := fmt.Fprintln(stdout, "declutter", version)
 		return err
 	}
 	if fs.NArg() > 1 {

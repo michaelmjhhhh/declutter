@@ -164,7 +164,7 @@ func TestCopyFailureAndPreviewFitsTerminal(t *testing.T) {
 			if lipgloss.Width(view) > m.width {
 				t.Fatalf("view overflows width: %d > %d", lipgloss.Width(view), m.width)
 			}
-			if !strings.Contains(ansi.Strip(view), "REMOVE SHIT") {
+			if !strings.Contains(ansi.Strip(view), "DECLUTTER") {
 				t.Fatal("header lost")
 			}
 		}

@@ -15,7 +15,7 @@ INSTALLER = Path(__file__).resolve().parents[1] / "install.sh"
 
 class InstallerTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="remove-shit-install-test-")
+        self.temp = tempfile.TemporaryDirectory(prefix="declutter-install-test-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.bin = self.root / "commands"
@@ -29,7 +29,7 @@ class InstallerTests(unittest.TestCase):
             QA_OS="Darwin",
             QA_ARCH="arm64",
         )
-        self.env.pop("REMOVE_SHIT_VERSION", None)
+        self.env.pop("DECLUTTER_VERSION", None)
         self.command("uname", '#!/bin/sh\ncase "$1" in -s) echo "$QA_OS" ;; -m) echo "$QA_ARCH" ;; esac\n')
         self.command("sudo", "#!/bin/sh\necho 'Unexpected sudo call' >&2\nexit 99\n")
         self.command("curl", '''#!/usr/bin/env python3
@@ -39,7 +39,7 @@ urls = [arg for arg in args if arg.startswith("https://")]
 assert len(urls) == 1, args
 url = urls[0]
 if url.endswith("/releases/latest"):
-    print("https://github.com/michaelmjhhhh/remove-shit/releases/tag/v0.1.0", end="")
+    print("https://github.com/michaelmjhhhh/declutter/releases/tag/v0.1.0", end="")
 else:
     assert "/releases/download/v0.1.0/" in url, url
     dest = args[args.index("-o") + 1]
@@ -48,10 +48,10 @@ else:
 ''')
         checksums = []
         for arch in ("arm64", "amd64"):
-            archive = self.root / f"remove-shit_darwin_{arch}.tar.gz"
-            content = b"#!/bin/sh\necho 'remove-shit v0.1.0'\n"
+            archive = self.root / f"declutter_darwin_{arch}.tar.gz"
+            content = b"#!/bin/sh\necho 'declutter v0.1.0'\n"
             with tarfile.open(archive, "w:gz") as tar:
-                info = tarfile.TarInfo("remove-shit")
+                info = tarfile.TarInfo("declutter")
                 info.size = len(content)
                 info.mode = 0o755
                 tar.addfile(info, io.BytesIO(content))
@@ -73,21 +73,21 @@ else:
     def test_latest_apple_silicon(self):
         result = self.run_installer()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        binary = self.target / "remove-shit"
+        binary = self.target / "declutter"
         self.assertTrue(os.access(binary, os.X_OK))
-        self.assertEqual(subprocess.check_output([str(binary)], text=True).strip(), "remove-shit v0.1.0")
+        self.assertEqual(subprocess.check_output([str(binary)], text=True).strip(), "declutter v0.1.0")
 
     def test_pinned_intel(self):
-        self.env.update(QA_ARCH="x86_64", REMOVE_SHIT_VERSION="v0.1.0")
+        self.env.update(QA_ARCH="x86_64", DECLUTTER_VERSION="v0.1.0")
         result = self.run_installer()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("amd64", result.stdout)
 
     def test_corrupt_download_preserves_existing_install(self):
         self.target.mkdir()
-        binary = self.target / "remove-shit"
+        binary = self.target / "declutter"
         binary.write_text("original installation")
-        with (self.root / "remove-shit_darwin_arm64.tar.gz").open("ab") as archive:
+        with (self.root / "declutter_darwin_arm64.tar.gz").open("ab") as archive:
             archive.write(b"corrupted")
         result = self.run_installer()
         self.assertNotEqual(result.returncode, 0)
@@ -114,10 +114,10 @@ else:
         self.assertIn("Unsupported Mac architecture", result.stderr)
 
     def test_rejects_invalid_version_and_relative_destination(self):
-        self.env["REMOVE_SHIT_VERSION"] = "v0.1.0/../../bad"
+        self.env["DECLUTTER_VERSION"] = "v0.1.0/../../bad"
         result = self.run_installer()
         self.assertNotEqual(result.returncode, 0)
-        self.env["REMOVE_SHIT_VERSION"] = "v0.1.0"
+        self.env["DECLUTTER_VERSION"] = "v0.1.0"
         self.env["INSTALL_DIR"] = "relative/path"
         result = self.run_installer()
         self.assertNotEqual(result.returncode, 0)

@@ -1,7 +1,7 @@
-# remove-shit
+# declutter
 
-[![Release](https://img.shields.io/github/v/release/michaelmjhhhh/remove-shit?style=flat-square)](https://github.com/michaelmjhhhh/remove-shit/releases/latest)
-[![CI](https://github.com/michaelmjhhhh/remove-shit/actions/workflows/ci.yml/badge.svg)](https://github.com/michaelmjhhhh/remove-shit/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/michaelmjhhhh/declutter?style=flat-square)](https://github.com/michaelmjhhhh/declutter/releases/latest)
+[![CI](https://github.com/michaelmjhhhh/declutter/actions/workflows/ci.yml/badge.svg)](https://github.com/michaelmjhhhh/declutter/actions/workflows/ci.yml)
 [![macOS](https://img.shields.io/badge/macOS-Apple_Silicon_%26_Intel-black?style=flat-square&logo=apple)](#install)
 
 A macOS CLI that converts pasted text and TXT, Markdown, HTML, RTF, and DOCX files to plain text. Built with Go and Charmbracelet. All processing is local.
@@ -9,7 +9,7 @@ A macOS CLI that converts pasted text and TXT, Markdown, HTML, RTF, and DOCX fil
 ## Install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/michaelmjhhhh/remove-shit/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/michaelmjhhhh/declutter/main/install.sh | sh
 ```
 
 Installs to `/usr/local/bin` after verifying the release checksum. Supports Apple Silicon and Intel; Go is not required. Run again to update.
@@ -17,18 +17,18 @@ Installs to `/usr/local/bin` after verifying the release checksum. Supports Appl
 For a custom directory, append `INSTALL_DIR="$HOME/.local/bin"` before `sh` and add that directory to your `PATH`. To uninstall the default installation:
 
 ```sh
-sudo rm /usr/local/bin/remove-shit
+sudo rm /usr/local/bin/declutter
 ```
 
 ## Usage
 
 ```sh
-remove-shit                              # Interactive mode
-remove-shit -o clean.txt document.docx    # Save to a new file
-remove-shit -i notes.rtf                  # Preview a file
-cat page.html | remove-shit > clean.txt   # Pipe input
-remove-shit --format markdown notes.txt  # Override input format
-remove-shit --help
+declutter                              # Interactive mode
+declutter -o clean.txt document.docx    # Save to a new file
+declutter -i notes.rtf                  # Preview a file
+cat page.html | declutter > clean.txt   # Pipe input
+declutter --format markdown notes.txt  # Override input format
+declutter --help
 ```
 
 In interactive mode, choose **Paste text** or **Open a file**. Paste with **Cmd+V**, then press **Ctrl+D** to clean. For files, enter the path and press **Enter**.
@@ -59,7 +59,7 @@ Flags must precede the filename. Output preserves paragraphs, Unicode, and link 
 Requires Go 1.26.1 or later.
 
 ```sh
-go build -o remove-shit .
+go build -o declutter .
 go test -race ./...
 go vet ./...
 python3 scripts/test-install.py

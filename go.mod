@@ -1,4 +1,4 @@
-module github.com/michaelmjhhhh/remove-shit
+module github.com/michaelmjhhhh/declutter
 
 go 1.26.1
 

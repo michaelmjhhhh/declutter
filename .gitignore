@@ -1,5 +1,5 @@
 # Build and release artifacts
-/remove-shit
+/declutter
 /dist/
 /bin/
 *.test

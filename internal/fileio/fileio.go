@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/michaelmjhhhh/remove-shit/internal/clean"
+	"github.com/michaelmjhhhh/declutter/internal/clean"
 )
 
 func Expand(path string) string {

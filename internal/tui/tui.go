@@ -12,9 +12,9 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/michaelmjhhhh/remove-shit/internal/clean"
-	"github.com/michaelmjhhhh/remove-shit/internal/clipboard"
-	"github.com/michaelmjhhhh/remove-shit/internal/fileio"
+	"github.com/michaelmjhhhh/declutter/internal/clean"
+	"github.com/michaelmjhhhh/declutter/internal/clipboard"
+	"github.com/michaelmjhhhh/declutter/internal/fileio"
 )
 
 type screen int
@@ -324,7 +324,7 @@ func (m Model) View() tea.View {
 		return v
 	}
 	var body, help string
-	title := accent.Render("REMOVE SHIT") + "  " + muted.Render("→ plain text")
+	title := accent.Render("DECLUTTER") + "  " + muted.Render("→ plain text")
 	switch m.screen {
 	case home:
 		items := []string{"Paste text", "Open a file"}
@@ -366,7 +366,7 @@ func (m Model) View() tea.View {
 
 func (m Model) previewParts() (string, string) {
 	w := max(1, m.width-4)
-	header := accent.Render("REMOVE SHIT") + "  " + muted.Render("→ plain text") + "\n\n" +
+	header := accent.Render("DECLUTTER") + "  " + muted.Render("→ plain text") + "\n\n" +
 		fmt.Sprintf("Clean text  ·  %d characters  ·  %.0f%%", utf8.RuneCountInString(m.cleaned), m.view.ScrollPercent()*100)
 	footer := muted.Render("s save .txt · c copy · p print & exit\n↑/↓ scroll · n new · esc back · q quit")
 	if m.status != "" {

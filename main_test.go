@@ -82,7 +82,7 @@ func TestVersion(t *testing.T) {
 	if err := run([]string{"--version"}, os.Stdin, &out, &diagnostic); err != nil {
 		t.Fatal(err)
 	}
-	if out.String() != "remove-shit "+version+"\n" || diagnostic.Len() != 0 {
+	if out.String() != "declutter "+version+"\n" || diagnostic.Len() != 0 {
 		t.Fatalf("unexpected version output: %q / %q", out.String(), diagnostic.String())
 	}
 }
